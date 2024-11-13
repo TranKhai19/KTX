@@ -37,9 +37,20 @@ header {
 }
 
 .language-selector {
-    background-color: rgb(199, 117, 117);
-    border-radius: 15px;
-    padding: 5px 10px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
 }
 
 .sidebar {
@@ -69,7 +80,7 @@ header {
 }
 
 .menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(241, 241, 241, 0.1);
 }
 
 main {
@@ -119,8 +130,8 @@ h1 {
 
 .submenu a {
     display: block;
-    padding: 5px 0;
-    color: #333;
+    padding: 10px 0;
+    color: #ffffff;
     text-decoration: none;
 }
 

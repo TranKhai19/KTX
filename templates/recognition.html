@@ -4,8 +4,93 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/css/recognition.css" />
-    <title>Camera</title>
-    <style></style>
+    <title>Điểm danh sinh viên</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f5f5f5;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #d32f2f;
+        width: 100%;
+        color: white;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 40px;
+        margin-right: 10px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 1200px;
+      }
+
+      .sidebar {
+        width: 200px;
+        padding: 20px;
+        background-color: #eee;
+      }
+
+      .back-button {
+        font-size: 16px;
+        color: #d32f2f;
+        cursor: pointer;
+      }
+
+      .camera-container {
+        text-align: center;
+      }
+
+      .camera-container img {
+        width: 100%;
+        max-width: 640px;
+        height: auto;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 10px;
+        margin-top: 20px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .info-item {
+        font-size: 16px;
+      }
+
+      .info-item span {
+        font-weight: bold;
+      }
+
+      footer {
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -13,27 +98,68 @@
         <img src="../static/resouces/image/logoDTU.png" alt="Logo Duy Tân" />
         <span>my DUY TÂN</span>
       </div>
-      <div class="language-selector">Việt Nam English • •</div>
+      <div class="language-selector">Việt Nam | English</div>
     </header>
+
     <div class="container">
       <aside class="sidebar">
-        <div class="back-button" onclick="window.location.href='screen.html'">
+        <div class="back-button" onclick="window.location.href='screen'">
           ✕ Điểm danh sinh viên
         </div>
       </aside>
       <main>
-        <div class="camera-container">Camera</div>
+        <div class="camera-container">
+          <img src="/video_feed" width="640" height="480" />
+        </div>
+        
+
         <div class="info-grid">
           <div class="info-item">Họ tên:</div>
-          <div class="info-item"></div>
-          <div class="info-item"></div>
-          <div class="info-item"></div>
+          <div class="info-item" id="student-name">Đang nhận diện...</div>
+          <div class="info-item">Thời gian điểm danh:</div>
+          <div class="info-item" id="attendance-time">--:--:--</div>
         </div>
       </main>
     </div>
+
+    <footer>© 2024 Đại học Duy Tân</footer>
+
     <script>
-      // Placeholder for face detection logic
-      // This would be where you integrate your actual face detection system
+      const studentName = document.getElementById('student-name');
+      const attendanceTime = document.getElementById('attendance-time');
+
+      // Function to fetch recognition details from the server
+      function fetchRecognitionData() {
+        fetch('/recognition_data')
+          .then(response => response.json())
+          .then(data => {
+            if (data.name) {
+              studentName.textContent = data.name;
+              attendanceTime.textContent = data.time;
+            } else {
+              studentName.textContent = "Unknown";
+              attendanceTime.textContent = "--:--:--";
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching recognition data:', error);
+          });
+      }
+
+      // Fetch recognition data every 5 seconds
+      setInterval(fetchRecognitionData, 5000);
     </script>
   </body>
 </html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Face Recognition Video Stream</h1>
+            <img src="/video_feed" width="640" height="480" />
+</body>
+</html> -->
